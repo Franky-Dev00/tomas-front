@@ -6,19 +6,22 @@ import Detail from '@/pages/detail/detail.tsx';
 import Orders from '@/pages/orders/orders';
 import Login from '@/pages/login/login';
 import Layout from '@/layouts/root-layout';
-import QueryProvider from './contexts/react-query';
+import QueryProvider from '@/contexts/react-query';
+import AuthProvider from '@/contexts/auth';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <QueryProvider>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/diseño/:id' element={<Detail />} />
-          <Route path='/pedidos' element={<Orders />} />
-          <Route path='/ingresar' element={<Login />} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/diseño/:id' element={<Detail />} />
+            <Route path='/pedidos' element={<Orders />} />
+            <Route path='/ingresar' element={<Login />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </QueryProvider>
   </BrowserRouter >,
 )
