@@ -1,0 +1,21 @@
+
+- [ ] Home Page
+    - [ ] Card Component
+    - [ ] Lista de Cards
+    - [ ] Search Bar
+    - [ ] Paginado
+- [ ] Detail    
+    - [ ] Imagen grande
+    - [ ] Info
+    - [ ] Select de cantidad(?)
+    - [ ] Select de talla 
+    - [ ] Select de formato
+- [ ] Carrito 
+    - [ ] Decidir si usar un modal o una pagina completa
+    - [ ] Decidir si usar un store(zustand) o solo localStorage
+    - [ ] Lista de items
+    - [ ] Custom hook para manejar los items en local storage
+    - [ ] Boton de aumentar o disminuir cantidad
+    - [ ] Boton de eliminar
+    - [ ] Boton de de <- Voler 
+    - [ ] Boton de generar orden
