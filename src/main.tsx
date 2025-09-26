@@ -1,12 +1,23 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
 import { BrowserRouter, Route, Routes } from "react-router";
+import Home from '@/pages/home/home.tsx';
+import Detail from '@/pages/detail/detail.tsx';
+import Orders from '@/pages/orders/orders';
+import Login from '@/pages/login/login';
+import Layout from '@/layouts/root-layout';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
+      <Route element={<Layout />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/diseño/:id' element={<Detail />} />
+        <Route path='/pedidos' element={<Orders />} />
+        <Route path='/ingresar' element={<Login />} />
+      </Route>
     </Routes>
   </BrowserRouter >,
 )
+
+

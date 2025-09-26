@@ -1,4 +1,12 @@
 
+- [ ] Auth
+    - [ ] Auth context 
+    - [ ] Login page
+    - [ ] Logout button 
+- [ ] NavBar
+    - [ ] Nombre del user o boton con imagen
+    - [ ] Nombre de la tienda 
+    - [ ] boton de carrito de compras
 - [ ] Home Page
     - [ ] Card Component
     - [ ] Lista de Cards
@@ -19,3 +27,6 @@
     - [ ] Boton de eliminar
     - [ ] Boton de de <- Voler 
     - [ ] Boton de generar orden
+- [ ] Pagina de pedidos 
+    - [ ] Tabla de pedidos 
+    - [ ] Vistas segun tipo de usuarios
