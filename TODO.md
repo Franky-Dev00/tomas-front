@@ -1,12 +1,12 @@
 
 - [ ] Auth
-    - [ ] Auth context 
+    - [✅] Auth context 
     - [ ] Login page
     - [ ] Logout button 
-- [ ] NavBar
-    - [ ] Nombre del user o boton con imagen
-    - [ ] Nombre de la tienda 
-    - [ ] boton de carrito de compras
+- [✅] NavBar
+    - [✅] Nombre del user o boton con imagen
+    - [✅] Nombre de la tienda 
+    - [✅] boton de carrito de compras
 - [ ] Home Page
     - [ ] Card Component
     - [ ] Lista de Cards
@@ -19,14 +19,15 @@
     - [ ] Select de talla 
     - [ ] Select de formato
 - [ ] Carrito 
-    - [ ] Decidir si usar un modal o una pagina completa
-    - [ ] Decidir si usar un store(zustand) o solo localStorage
-    - [ ] Lista de items
+    - [✅] Decidir si usar un modal o una pagina completa
+    - [✅] Decidir si usar un store(zustand) o solo localStorage
+    - [✅] Lista de items
+    - [ ] Componetizar
     - [ ] Custom hook para manejar los items en local storage
-    - [ ] Boton de aumentar o disminuir cantidad
-    - [ ] Boton de eliminar
-    - [ ] Boton de de <- Voler 
-    - [ ] Boton de generar orden
+    - [✅] Boton de aumentar o disminuir cantidad
+    - [✅] Boton de eliminar
+    - [✅] Boton de de <- Voler 
+    - [✅] Boton de generar orden
 - [ ] Pagina de pedidos 
     - [ ] Tabla de pedidos 
     - [ ] Vistas segun tipo de usuarios

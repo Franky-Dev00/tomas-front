@@ -22,7 +22,7 @@ export function CartModal() {
     {
       id: "1",
       name: "Diseño Místico Samael",
-      price: 25.99,
+      price: 25,
       quantity: 2,
       size: "M",
       format: "Camiseta",
@@ -31,7 +31,7 @@ export function CartModal() {
     {
       id: "2",
       name: "Arte Venganza Oscura",
-      price: 19.99,
+      price: 19,
       quantity: 1,
       size: "L",
       format: "Poster",
@@ -104,7 +104,7 @@ export function CartModal() {
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="font-semibold text-sm">${item.price.toFixed(2)}</span>
+                      <span className="font-semibold text-sm">${item.price}</span>
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
@@ -146,13 +146,13 @@ export function CartModal() {
             <div className="space-y-4">
               <div className="flex justify-between items-center font-semibold">
                 <span>Total:</span>
-                <span className="text-lg">${total.toFixed(2)}</span>
+                <span className="text-lg">${total}</span>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1 bg-transparent">
                   Continuar Comprando
                 </Button>
-                <Button className="flex-1">Proceder al Pago</Button>
+                <Button className="flex-1">Confirmar pedido</Button>
               </div>
             </div>
           </>
