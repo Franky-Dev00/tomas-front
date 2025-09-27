@@ -1,6 +1,5 @@
 import { LogOut, Package, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button"
-import { type User } from "@/lib/types"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +9,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Link } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { logOut } from "@/api/auth";
+import { useAuthStore } from "@/store/auth-store";
 
-type Props = {
-  user: User | null
-}
+export default function() {
 
-export default function({ user }: Props) {
+
+  const user = useAuthStore((state) => state.user)
+  const setAuthUser = useAuthStore((state) => state.setUser)
+
+  const mutation = useMutation({
+    mutationKey: ["auth-mutation"],
+    mutationFn: logOut
+  })
+
+  function handleLogout() {
+    mutation.mutate()
+    setAuthUser(null)
+  }
 
   if (!user) {
     return (
@@ -48,7 +60,7 @@ export default function({ user }: Props) {
             Mis pedidos
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="h-4 w-4 mr-2" />
           Cerrar Sesión
         </DropdownMenuItem>

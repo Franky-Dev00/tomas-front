@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:5000",
   withCredentials: true,
-})
+});
 
 api.interceptors.response.use(
   response => response,
@@ -23,6 +23,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 
 export { api }

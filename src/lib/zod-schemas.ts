@@ -27,3 +27,16 @@ export const newUserSchema = z.object({
 
 
 export type NewUserForm = z.infer<typeof newUserSchema>;
+
+export const loginSchema = z.object({
+  email: z.email("Por favor ingresa un correo electrónico válido")
+    .min(1, "El correo electrónico es requerido"),
+
+  password: z.string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "La contraseña debe contener al menos una minúscula, una mayúscula y un número"),
+})
+
+
+export type LoginForm = z.infer<typeof loginSchema>;
+

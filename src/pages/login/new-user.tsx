@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +8,9 @@ import { useMutation } from "@tanstack/react-query";
 import { createUser } from "@/api/users";
 import { toast } from "sonner"
 import { newUserSchema, type NewUserForm } from "@/lib/zod-schemas";
+import RootError from "./error-root-badge";
+import LabelError from "./error-label";
+import ShowPassword from "./show-password";
 
 type Props = {
   reset: () => void
@@ -49,14 +51,7 @@ export function NewUser({ reset }: Props) {
 
   return (
     <form className="max-w-md space-y-4 mx-auto p-6">
-      {errors.root && (
-        <div className="p-3 border border-red-200 bg-red-50 rounded-md">
-          <div className="flex items-center gap-2 text-sm text-red-600">
-            <AlertCircle className="h-4 w-4 flex-shrink-0" />
-            <span>{errors.root.message}</span>
-          </div>
-        </div>
-      )}
+      <RootError errorMessage={errors.root?.message} />
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName">Nombre</Label>
@@ -66,12 +61,7 @@ export function NewUser({ reset }: Props) {
             className={`h-11 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
             {...register("name")}
           />
-          {errors.name && (
-            <div className="flex items-center gap-1 text-sm text-red-500">
-              <AlertCircle className="h-4 w-4" />
-              {errors.name.message}
-            </div>
-          )}
+          <LabelError errorMessage={errors.name?.message} />
         </div>
 
         <div className="space-y-2">
@@ -82,12 +72,7 @@ export function NewUser({ reset }: Props) {
             className={`h-11 ${errors.lastname ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
             {...register("lastname")}
           />
-          {errors.lastname && (
-            <div className="flex items-center gap-1 text-sm text-red-500">
-              <AlertCircle className="h-4 w-4" />
-              {errors.lastname.message}
-            </div>
-          )}
+          <LabelError errorMessage={errors.lastname?.message} />
         </div>
       </div>
 
@@ -100,12 +85,7 @@ export function NewUser({ reset }: Props) {
           className={`h-11 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
           {...register("email")}
         />
-        {errors.email && (
-          <div className="flex items-center gap-1 text-sm text-red-500">
-            <AlertCircle className="h-4 w-4" />
-            {errors.email.message}
-          </div>
-        )}
+        <LabelError errorMessage={errors.email?.message} />
       </div>
 
       <div className="space-y-2">
@@ -118,26 +98,12 @@ export function NewUser({ reset }: Props) {
             className={`h-11 pr-10 ${errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
             {...register("password")}
           />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
+          <ShowPassword
+            isVisible={showPassword}
+            toggleIsVisible={setShowPassword}
+          />
         </div>
-        {errors.password && (
-          <div className="flex items-center gap-1 text-sm text-red-500">
-            <AlertCircle className="h-4 w-4" />
-            {errors.password.message}
-          </div>
-        )}
+        <LabelError errorMessage={errors.password?.message} />
       </div>
 
       <div className="space-y-2">
@@ -150,28 +116,12 @@ export function NewUser({ reset }: Props) {
             className={`h-11 pr-10 ${errors.confirmPassword ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
             {...register("confirmPassword")}
           />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          >
-            {showConfirmPassword ? (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
-        </div>
-        {errors.confirmPassword && (
-          <div className="flex items-center gap-1 text-sm text-red-500">
-            <AlertCircle className="h-4 w-4" />
-            {errors.confirmPassword.message}
-          </div>
-        )}
+          <ShowPassword
+            isVisible={showConfirmPassword}
+            toggleIsVisible={setShowConfirmPassword}
+          />        </div>
+        <LabelError errorMessage={errors.confirmPassword?.message} />
       </div>
-
       <Button
         type="submit"
         className="w-full h-11 text-base font-medium mt-6"

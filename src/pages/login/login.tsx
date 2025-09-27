@@ -1,18 +1,66 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import ShowPassword from "./show-password";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginForm } from "@/lib/zod-schemas";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/api/auth";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
+import RootError from "./error-root-badge";
+import LabelError from "./error-label";
+import { useAuthStore } from "@/store/auth-store";
 
 export default function Login() {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+  const setAuthUser = useAuthStore((state) => state.setUser)
+
+  const mutation = useMutation({
+    mutationFn: login,
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        setError("root", { "message": error.message })
+      }
+    },
+    onSuccess: (response) => {
+      toast.success(`Sesión iniciada como ${response.data.name} correctamente`)
+      setAuthUser(response.data)
+      navigate("/")
+    }
+  })
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm({
+    resolver: zodResolver(loginSchema)
+  });
+
+  const onSubmit = (data: LoginForm) => {
+    mutation.mutate(data)
+  }
+
   return (
-    <form className="flex flex-col gap-8 ">
+    <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+      <RootError errorMessage={errors.root?.message} />
       <div className="space-y-4">
         <Label htmlFor="email">Correo Electrónico</Label>
-        <Input id="email" type="email" placeholder="tu@email.com" className="h-11" />
+        <Input
+          id="email"
+          type="email"
+          placeholder="tu@email.com"
+          className="h-11"
+          {...register("email")}
+        />
+        <LabelError errorMessage={errors.email?.message} />
       </div>
       <div className="space-y-4">
         <Label htmlFor="password">Contraseña</Label>
@@ -22,23 +70,22 @@ export default function Login() {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             className="h-11 pr-10"
+            {...register("password")}
           />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
+          <ShowPassword
+            isVisible={showPassword}
+            toggleIsVisible={setShowPassword}
+          />
         </div>
+        <LabelError errorMessage={errors.password?.message} />
       </div>
-      <Button className="w-full h-11 text-base font-medium">Iniciar Sesión</Button>
+      <Button disabled={mutation.isPending} type="submit" className="w-full h-11 text-base font-medium">
+        {
+          mutation.isPending
+            ? "Iniciando sesión..."
+            : "Iniciar Sesión"
+        }
+      </Button>
     </form>
-  )
+  );
 }
