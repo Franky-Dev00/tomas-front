@@ -57,7 +57,7 @@ export function CartModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="relative">
           <ShoppingCart className="h-4 w-4" />
           {cartItemsCount > 0 && (

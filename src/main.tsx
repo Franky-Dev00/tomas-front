@@ -8,6 +8,7 @@ import Layout from '@/layouts/root-layout'
 import QueryProvider from '@/contexts/react-query'
 import AuthProvider from '@/contexts/auth'
 import Auth from './pages/login/auth-tabs'
+import { Toaster } from './components/ui/sonner'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/ingresar' element={<Auth />} />
           </Route>
         </Routes>
+        <Toaster position="top-center" />
       </AuthProvider>
     </QueryProvider>
   </BrowserRouter >,

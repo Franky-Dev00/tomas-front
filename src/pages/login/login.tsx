@@ -9,12 +9,12 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <>
-      <div className="space-y-2">
+    <form className="flex flex-col gap-8 ">
+      <div className="space-y-4">
         <Label htmlFor="email">Correo Electrónico</Label>
         <Input id="email" type="email" placeholder="tu@email.com" className="h-11" />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-4">
         <Label htmlFor="password">Contraseña</Label>
         <div className="relative">
           <Input
@@ -39,6 +39,6 @@ export default function Login() {
         </div>
       </div>
       <Button className="w-full h-11 text-base font-medium">Iniciar Sesión</Button>
-    </>
+    </form>
   )
 }
