@@ -9,20 +9,20 @@ export default function Home() {
 
   const [query, setQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [debouncedQuery, setDebouncedQuery] = useState("")
 
-
-  const { error, isLoading, data } = useQuery({
-    queryKey: ["designs"],
-    queryFn: getDesigns
+  const { error, data } = useQuery({
+    queryKey: ["designs", debouncedQuery],
+    queryFn: async () => getDesigns(debouncedQuery)
   })
 
   if (error) {
     return <div> {error.message}</div>
   }
-  if (isLoading) return <div>Loading...</div>
 
 
-
+  //TODO: hacer que los links redirecteen a la pagina correca y 
+  // hacer que las cards sean un link por completo
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
@@ -34,7 +34,11 @@ export default function Home() {
         </p>
       </div>
 
-      <SearchBar query={query} setQuery={setQuery} />
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        setDebouncedQuery={setDebouncedQuery}
+      />
 
       <div className="flex justify-between items-center mb-6">
         <p className="text-muted-foreground">
