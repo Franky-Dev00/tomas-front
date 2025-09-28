@@ -1,13 +1,20 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import type { Design } from "@/lib/types"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 
 type Props = {
   design: Design
 }
 
 export default function DesignCard({ design }: Props) {
+
+  const navigate = useNavigate()
+
+  function handleClick() {
+    navigate(`/diseño/${design.id}`)
+  }
+
   return (
     <Card key={design.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
       <div className="relative">
@@ -24,9 +31,12 @@ export default function DesignCard({ design }: Props) {
           <h3 className="font-semibold text-lg truncate">{design.name}</h3>
           <span className="font-bold text-primary">${design.price}</span>
         </div>
-        <Link to={`/design/${design.id}`}>
-          <Button className="w-full">Ver Detalles</Button>
-        </Link>
+        <Button
+          onClick={handleClick}
+          className="w-full"
+        >
+          Ver Detalles
+        </Button>
       </CardContent>
     </Card>
   )

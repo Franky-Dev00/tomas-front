@@ -4,6 +4,7 @@ import { Fragment, useState } from "react"
 import SearchBar from "./search-bar"
 import DesignCard from "./design-card"
 import Pagination from "./pagination"
+import { Link } from "react-router"
 
 export default function Home() {
 
@@ -51,9 +52,9 @@ export default function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         {data?.designs.map((design) => (
-          <Fragment key={design.id}>
+          <Link to={`/diseño/${design.id}`} key={design.id}>
             <DesignCard design={design} />
-          </Fragment>
+          </Link>
         ))}
       </div>
       <Pagination
