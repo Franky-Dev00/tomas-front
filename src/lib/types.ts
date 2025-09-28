@@ -2,6 +2,8 @@ export type Design = {
   id: number
   name: string
   price: number
+  description: string
+  features: string[]
   images: string[]
 }
 
@@ -19,6 +21,24 @@ export type DesignsResponse = {
 export type User = {
   id: number
   name: string
+  description: string
+  features: string
+  lastname: string
   email: string
   role: string
+}
+
+export type Garment = {
+  id: number
+  name: string
+  price: number
+  variants: GarmentVariant[]
+}
+
+export type GarmentVariant = {
+  garment_id: number
+  id: number
+  price: number | null
+  size: string
+  stock: string
 }
