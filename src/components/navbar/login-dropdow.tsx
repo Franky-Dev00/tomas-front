@@ -9,25 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Link } from "react-router";
-import { useMutation } from "@tanstack/react-query";
-import { logOut } from "@/api/auth";
-import { useAuthStore } from "@/store/auth-store";
+import { useAuth } from "@/lib/hooks/auth";
 
 export default function() {
 
+  const { user, logOutHelper } = useAuth()
 
-  const user = useAuthStore((state) => state.user)
-  const setAuthUser = useAuthStore((state) => state.setUser)
-
-  const mutation = useMutation({
-    mutationKey: ["auth-mutation"],
-    mutationFn: logOut
-  })
-
-  function handleLogout() {
-    mutation.mutate()
-    setAuthUser(null)
-  }
 
   if (!user) {
     return (
@@ -60,7 +47,7 @@ export default function() {
             Mis pedidos
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={logOutHelper}>
           <LogOut className="h-4 w-4 mr-2" />
           Cerrar Sesión
         </DropdownMenuItem>

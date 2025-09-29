@@ -8,7 +8,7 @@ import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 import Cart from "./cart"
 import type { Garment, GarmentVariant } from "@/lib/types"
-import { useLocalStorage, type LocalStorageItem } from "@/lib/hooks"
+import { useLocalStorage, type LocalStorageItem } from "@/lib/hooks/localStorage"
 import { toast } from "sonner"
 
 type Params = {

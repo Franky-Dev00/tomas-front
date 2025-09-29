@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Minus, Plus, Trash2, ShoppingBag, ShoppingCart } from "lucide-react"
 import { useCartStore } from "@/store/cart-store"
-import { useLocalStorage } from "@/lib/hooks"
+import { useLocalStorage } from "@/lib/hooks/localStorage"
 import { useAuthStore } from "@/store/auth-store"
 import { Link } from "react-router"
 import { useMutation } from "@tanstack/react-query"
@@ -22,7 +22,6 @@ export function CartModal() {
   const cartItems = useCartStore(state => state.items)
   const { setItemQuantity, deleteItem, clearItems } = useLocalStorage()
 
-  //TODO: verificar que se eliminen los items del carrito 
   const mutation = useMutation({
     mutationFn: CreateOrder,
     mutationKey: ["new-order"],

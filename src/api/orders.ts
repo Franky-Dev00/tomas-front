@@ -1,6 +1,6 @@
 import type { Item } from "@/lib/types";
 import { api } from ".";
-import type { LocalStorageItem } from "@/lib/hooks";
+import type { LocalStorageItem } from "@/lib/hooks/localStorage";
 
 function createOrderAdapter(items: LocalStorageItem[]): { items: Item[] } {
   const newItems: Item[] = []

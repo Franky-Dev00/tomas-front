@@ -1,4 +1,4 @@
-import type { LocalStorageItem } from "@/lib/hooks"
+import type { LocalStorageItem } from "@/lib/hooks/localStorage"
 import { create } from "zustand"
 
 

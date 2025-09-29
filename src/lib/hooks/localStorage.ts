@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Item } from "./types";
+import type { Item } from "@/lib/types";
 import { useCartStore } from "@/store/cart-store";
 
 export type LocalStorageItem = Item & { id: string, name: string, image: string, size: string, garment: string }
