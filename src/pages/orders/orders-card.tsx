@@ -36,7 +36,7 @@ export type OrderStatus = keyof typeof ORDER_STATUS;
 
 export default function OrderCard({ order, role }: { order: Order; role?: string }) {
 
-  const [status, setStatus] = useState<OrderStatus>()
+  const [status, _setStatus] = useState<OrderStatus>()
 
   const queryClient = useQueryClient()
 

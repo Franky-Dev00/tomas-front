@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Package, Search } from "lucide-react"
+import { Package } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { getOrders } from "@/api/orders"
 import OrderCard from "./orders-card"

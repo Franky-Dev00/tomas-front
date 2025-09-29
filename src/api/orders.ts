@@ -25,7 +25,7 @@ export async function getOrders(q?: string) {
 }
 
 export async function changeOrderStatus(id: number, status: OrderStatus) {
-  const response = await api.put(`/orders/${id}`, { status })
+  await api.put(`/orders/${id}`, { status })
 }
 
 // incluirla en la pagina order

@@ -13,7 +13,7 @@ export default function NavBar() {
           </span>
         </Link>
         <div className="flex items-center gap-2">
-          <UserMenu user={null} />
+          <UserMenu />
           <CartModal />
         </div>
       </div>
