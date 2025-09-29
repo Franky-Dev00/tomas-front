@@ -42,13 +42,17 @@ export default function Detail() {
       quantity,
       unit_price: currentPrice,
       design_id: data?.design.id,
-      garment_variant_id: selectedSize?.id
+      garment_variant_id: selectedSize?.id,
+      name: data?.design.name,
+      image: data?.design.images[0],
+      size: selectedSize?.size,
+      garment: selectedGarment?.name
     }
   }
 
   function handleAddItem() {
     const item = createItem()
-    if (checkIfExists(item.garment_variant_id as number)) {
+    if (checkIfExists(item.id, item.garment_variant_id as number)) {
       toast.error(`El artículo ${selectedGarment?.name} ${data?.design.name} ${selectedSize?.size} ya esta en tu carrito`)
     } else {
       addItem(item as LocalStorageItem)

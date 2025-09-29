@@ -1,33 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { Item } from "./types";
 import { useCartStore } from "@/store/cart-store";
 
-export type LocalStorageItem = Item & { id: string }
+export type LocalStorageItem = Item & { id: string, name: string, image: string, size: string, garment: string }
 
 export function useLocalStorage() {
 
-  const [items, setItems] = useState<LocalStorageItem[]>([])
 
   const setTotalItems = useCartStore(state => state.setTotalItems)
+  const setStoreItems = useCartStore(state => state.setItems)
+  const items = useCartStore(state => state.items)
+
 
   useEffect(() => {
     if (window.localStorage) {
       const data = window.localStorage.getItem("items")
-      setItems(data ? JSON.parse(data) : [])
+      if (data) {
+        const parsedItems: LocalStorageItem[] = JSON.parse(data)
+        setStoreItems(parsedItems)
+        setTotalItems(parsedItems.reduce((acc, item) => acc + item.quantity, 0))
+      }
     }
   }, [])
 
   function addItem(newItem: LocalStorageItem) {
     const newItems = [...items, newItem]
     window.localStorage.setItem("items", JSON.stringify(newItems))
-    setItems(newItems)
     setTotalItems(getTotalItems(newItems))
+    setStoreItems(newItems)
   }
 
   function deleteItem(id: string) {
-    const newItems = items.filter((item) => item.id === id)
+    const newItems = items.filter((item) => item.id !== id)
     window.localStorage.setItem("items", JSON.stringify(newItems))
     setTotalItems(getTotalItems(newItems))
+    setStoreItems(newItems)
   }
 
   function setItemQuantity(id: string, newQuantity: number) {
@@ -41,6 +48,8 @@ export function useLocalStorage() {
     })
     window.localStorage.setItem("items", JSON.stringify(newItems))
     setTotalItems(getTotalItems(newItems))
+    setStoreItems(newItems)
+
   }
 
   function getTotalItems(items: LocalStorageItem[]) {
@@ -49,14 +58,21 @@ export function useLocalStorage() {
     return totalItems
   }
 
-  function checkIfExists(variantId: number) {
-    return items.find((item) => item.garment_variant_id === variantId)
+  function checkIfExists(id: string, variantId: number) {
+    return items.find((item) => item.garment_variant_id === variantId && item.id === id)
+  }
+
+  function clearItems() {
+    window.localStorage.setItem("items", JSON.stringify([]))
+    setStoreItems([])
+    setTotalItems(0)
   }
 
   return {
     addItem,
     deleteItem,
     setItemQuantity,
-    checkIfExists
+    checkIfExists,
+    clearItems
   }
 }
