@@ -21,8 +21,6 @@ export type DesignsResponse = {
 export type User = {
   id: number
   name: string
-  description: string
-  features: string
   lastname: string
   email: string
   role: string
@@ -48,4 +46,36 @@ export type Item = {
   unit_price: number
   design_id: number
   garment_variant_id: number
+}
+
+type OrderItem = {
+  id: number;
+  quantity: number;
+  unit_price: number;
+  design: {
+    name: string
+    images: string[]
+  }
+}
+
+export type OrderStatus = "pending" | "sent" | "approved" | "rejected";
+
+export type Order = {
+  created_at: string;
+  id: number;
+  items: OrderItem[];
+  receipt: string;
+  status: OrderStatus;
+  user: User;
+}
+
+export type OrdersResponse = {
+  has_next: boolean;
+  has_prev: boolean;
+  next_page: number | null;
+  orders: Order[];
+  page: number;
+  pages: number;
+  prev_page: number | null;
+  total: number;
 }

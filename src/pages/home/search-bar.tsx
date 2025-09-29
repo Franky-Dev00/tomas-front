@@ -6,9 +6,10 @@ type Props = {
   query: string
   setQuery: React.Dispatch<React.SetStateAction<string>>
   setDebouncedQuery: React.Dispatch<React.SetStateAction<string>>
+  placeholder: string
 }
 
-export default function SearchBar({ query, setQuery, setDebouncedQuery }: Props) {
+export default function SearchBar({ placeholder, query, setQuery, setDebouncedQuery }: Props) {
 
   const timeoutRef = useRef<number | undefined>(null)
 
@@ -26,7 +27,6 @@ export default function SearchBar({ query, setQuery, setDebouncedQuery }: Props)
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value)
     debouncedSetQuery(e.target.value)
-
   }
 
   return (
@@ -34,7 +34,7 @@ export default function SearchBar({ query, setQuery, setDebouncedQuery }: Props)
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
-          placeholder="Buscar diseños..."
+          placeholder={placeholder}
           value={query}
           onChange={handleChange}
           className="pl-10"

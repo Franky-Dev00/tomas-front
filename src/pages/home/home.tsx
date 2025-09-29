@@ -36,6 +36,7 @@ export default function Home() {
         query={query}
         setQuery={setQuery}
         setDebouncedQuery={setDebouncedQuery}
+        placeholder="Buscar diseño por nombre..."
       />
 
       <div className="flex justify-between items-center mb-6">
