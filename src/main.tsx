@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/ingresar' element={<Auth />} />
         </Route>
       </Routes>
-      <Toaster position="top-center" />
+      <Toaster richColors position="top-center" />
     </QueryProvider>
   </BrowserRouter >,
 )

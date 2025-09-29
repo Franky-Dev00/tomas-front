@@ -1,6 +1,6 @@
 import { getDesigns } from "@/api/designs"
 import { useQuery } from "@tanstack/react-query"
-import { Fragment, useState } from "react"
+import { useState } from "react"
 import SearchBar from "./search-bar"
 import DesignCard from "./design-card"
 import Pagination from "./pagination"
@@ -21,9 +21,6 @@ export default function Home() {
     return <div> {error.message}</div>
   }
 
-
-  //TODO: hacer que los links redirecteen a la pagina correca y 
-  // hacer que las cards sean un link por completo
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">

@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Minus, Plus, Trash2, ShoppingBag, ShoppingCart } from "lucide-react"
+import { useCartStore } from "@/store/cart-store"
+import type { Item } from "@/lib/types"
+import type { LocalStorageItem } from "@/lib/hooks"
 
 type CartItem = {
   id: string
@@ -39,7 +42,19 @@ export function CartModal() {
     },
   ])
 
-  const cartItemsCount = cartItems.length
+  const cartItemsCount = useCartStore(state => state.totalItems)
+  const setTotalItems = useCartStore(state => state.setTotalItems)
+
+  useEffect(() => {
+    const items = window.localStorage.getItem("items")
+    if (items) {
+      const parsedItems: LocalStorageItem[] = JSON.parse(items)
+      if (parsedItems.length === 0) return
+      const total = parsedItems.reduce((acc, item) => acc + item.quantity, 0)
+      setTotalItems(total)
+    }
+  }, [])
+
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity === 0) {

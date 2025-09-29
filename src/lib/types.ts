@@ -42,3 +42,10 @@ export type GarmentVariant = {
   size: string
   stock: string
 }
+
+export type Item = {
+  quantity: number
+  unit_price: number
+  design_id: number
+  garment_variant_id: number
+}

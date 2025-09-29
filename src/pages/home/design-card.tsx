@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import type { Design } from "@/lib/types"
-import { Link, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 
 type Props = {
   design: Design

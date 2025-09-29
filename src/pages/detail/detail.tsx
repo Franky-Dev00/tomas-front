@@ -5,9 +5,11 @@ import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 import { ArrowLeft, Minus, Plus, ShoppingCart } from "lucide-react"
 import { useState } from "react"
-import { Link, useParams } from "react-router"
+import { Link, useNavigate, useParams } from "react-router"
 import Cart from "./cart"
 import type { Garment, GarmentVariant } from "@/lib/types"
+import { useLocalStorage, type LocalStorageItem } from "@/lib/hooks"
+import { toast } from "sonner"
 
 type Params = {
   id: string
@@ -19,16 +21,41 @@ export default function Detail() {
   if (!params.id) {
     return <h1>Not found</h1>
   }
+
+  const { addItem, checkIfExists } = useLocalStorage()
+
+  const navigate = useNavigate()
+
   const { data } = useQuery({
     queryKey: ["detail"],
     queryFn: async () => getDetailData(params.id)
   })
 
-  const [selectedGarment, setSelectedGarment] = useState<Garment | undefined>(data?.garments[0])
-  const [currentPrice, setCurrentPrice] = useState(data?.design.price ?? 0)
+  const [selectedGarment, setSelectedGarment] = useState<Garment | undefined>()
+  const [currentPrice, setCurrentPrice] = useState<number>(0)
   const [quantity, setQuantity] = useState(1)
-  const [selectedSize, setSelectedSize] = useState<GarmentVariant | undefined>(data?.garments[0].variants[0])
+  const [selectedSize, setSelectedSize] = useState<GarmentVariant | undefined>()
 
+  function createItem() {
+    return {
+      id: crypto.randomUUID(),
+      quantity,
+      unit_price: currentPrice,
+      design_id: data?.design.id,
+      garment_variant_id: selectedSize?.id
+    }
+  }
+
+  function handleAddItem() {
+    const item = createItem()
+    if (checkIfExists(item.garment_variant_id as number)) {
+      toast.error(`El artículo ${selectedGarment?.name} ${data?.design.name} ${selectedSize?.size} ya esta en tu carrito`)
+    } else {
+      addItem(item as LocalStorageItem)
+      toast.success(`Se ha agregado ${quantity} ${selectedGarment?.name} ${data?.design.name} ${selectedSize?.size} al carrito!`)
+      navigate("/")
+    }
+  }
 
   function handleGarmentChange(garment: Garment) {
     setSelectedGarment(garment)
@@ -64,7 +91,7 @@ export default function Detail() {
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">{data?.design.name}</h1>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-16">
               <span className="text-3xl font-bold text-primary">${data?.design.price.toLocaleString("de-DE")}</span>
             </div>
           </div>
@@ -74,7 +101,7 @@ export default function Detail() {
 
           <div>
             <h3 className="font-semibold mb-3">Formato</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 mb-8">
               {data?.garments.map((garment) => (
                 <Button
                   key={garment.name}
@@ -91,7 +118,7 @@ export default function Detail() {
 
           {/* size select */}
           {selectedGarment && (
-            <div>
+            <div className="mb-8">
               <h3 className="font-semibold mb-3">Talla</h3>
               <div className="flex flex-wrap gap-2">
                 {selectedGarment?.variants.map((variant) => (
@@ -111,7 +138,7 @@ export default function Detail() {
 
 
           {/* Quantity */}
-          <div>
+          <div className="mb-8">
             <h3 className="font-semibold mb-3">Cantidad</h3>
             <div className="flex items-center gap-3">
               <Button
@@ -132,9 +159,11 @@ export default function Detail() {
 
           {/* Actions */}
           <div className="space-y-3">
-            <Button className="w-full h-12 text-base font-medium">
-              <ShoppingCart className="h-5 w-5 mr-2" />
-              Agregar al Carrito - ${(currentPrice * quantity).toLocaleString("de-DE")}
+            <Button disabled={!currentPrice || !selectedGarment || !selectedSize} onClick={handleAddItem} className="w-full h-12 text-base font-medium">
+              <>
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                {`Agregar al Carrito  ${currentPrice ? `- $${(currentPrice * quantity).toLocaleString("de-DE")}` : ""}`}
+              </>
             </Button>
           </div>
 
@@ -163,6 +192,6 @@ export default function Detail() {
           </CardContent>
         </Card>
       </div>
-    </div>)
+    </div >)
 }
 
