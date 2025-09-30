@@ -29,7 +29,7 @@ export default function DesignCard({ design }: Props) {
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg truncate">{design.name}</h3>
-          <span className="font-bold text-primary">${design.price}</span>
+          <span className="font-bold text-primary">${design.price.toLocaleString("de-DE")}</span>
         </div>
         <Button
           onClick={handleClick}

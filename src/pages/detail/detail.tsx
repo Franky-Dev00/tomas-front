@@ -114,7 +114,7 @@ export default function Detail() {
                   className="justify-between"
                 >
                   <span>{garment.name}</span>
-                  <span>${garment.price}</span>
+                  <span>${garment.price.toLocaleString("de-DE")}</span>
                 </Button>
               ))}
             </div>

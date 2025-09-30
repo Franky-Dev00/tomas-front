@@ -6,12 +6,17 @@ import { getOrders } from "@/api/orders"
 import OrderCard from "./orders-card"
 import { useAuth } from "@/lib/hooks/auth"
 import SearchBar from "../home/search-bar"
+import Unauthorized from "./unauthorized"
 
 export default function OrdersPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
   const { user } = useAuth()
+
+  if (!user) {
+    return <Unauthorized />
+  }
 
   const { data } = useQuery({
     queryFn: async () => getOrders(debouncedSearchQuery),

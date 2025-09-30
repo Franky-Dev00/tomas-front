@@ -58,7 +58,7 @@ export default function OrderCard({ order, role }: { order: Order; role?: string
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg">{order.id}</CardTitle>
+            <CardTitle className="text-lg">Pedido #{order.id}</CardTitle>
             <p className="text-sm text-muted-foreground">
               {new Date(order.created_at).toLocaleDateString("es-ES", {
                 year: "numeric",
@@ -77,7 +77,7 @@ export default function OrderCard({ order, role }: { order: Order; role?: string
               {getStatusIcon(order.status)}
               {getStatusText(order.status)}
             </Badge>
-            <p className="text-lg font-semibold mt-2">${order.items.reduce((acc, item) => acc + (item.unit_price * item.quantity), 0)}</p>
+            <p className="text-lg font-semibold mt-2">${order.items.reduce((acc, item) => acc + (item.unit_price * item.quantity), 0).toLocaleString("de-DE")}</p>
           </div>
         </div>
       </CardHeader>
@@ -92,9 +92,9 @@ export default function OrderCard({ order, role }: { order: Order; role?: string
               />
               <div className="flex-1">
                 <p className="font-medium text-sm">{item.design.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  Cantidad: {item.quantity} × ${item.unit_price}
-                </p>
+                <p className="font-medium text-sm">{item.variant.garment.name} {item.variant.size}</p>
+                <p className="text-xs text-muted-foreground">   Cantidad: {item.quantity} </p>
+                <p className="text-xs text-muted-foreground">Precio por unidad ${item.unit_price.toLocaleString("de-DE")}</p>
               </div>
             </div>
           ))}

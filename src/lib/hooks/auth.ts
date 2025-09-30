@@ -2,10 +2,12 @@ import { getProfile, logOut } from "@/api/auth"
 import { useAuthStore } from "@/store/auth-store"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
+import { useNavigate } from "react-router"
 
 export function useAuth() {
   const user = useAuthStore((state) => state.user)
   const setAuthUser = useAuthStore((state) => state.setUser)
+  const navigate = useNavigate()
 
   const mutation = useMutation({
     mutationKey: ["auth-mutation"],
@@ -29,6 +31,7 @@ export function useAuth() {
   function logOutHelper() {
     mutation.mutate()
     setAuthUser(null)
+    navigate("/")
   }
 
   return {

@@ -6,7 +6,7 @@ import ShowPassword from "./show-password";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginForm } from "@/lib/zod-schemas";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
@@ -20,6 +20,7 @@ export default function Login() {
 
   const navigate = useNavigate()
   const setAuthUser = useAuthStore((state) => state.setUser)
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: login,
@@ -31,6 +32,8 @@ export default function Login() {
     onSuccess: (response) => {
       toast.success(`Sesión iniciada como ${response.data.name} correctamente`)
       setAuthUser(response.data)
+      queryClient.invalidateQueries({ queryKey: ["auth"] })
+      queryClient.invalidateQueries({ queryKey: ["orders"] })
       navigate("/")
     }
   })

@@ -8,7 +8,7 @@ import { useCartStore } from "@/store/cart-store"
 import { useLocalStorage } from "@/lib/hooks/localStorage"
 import { useAuthStore } from "@/store/auth-store"
 import { Link } from "react-router"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { CreateOrder } from "@/api/orders"
 import { toast } from "sonner"
 
@@ -22,6 +22,8 @@ export function CartModal() {
   const cartItems = useCartStore(state => state.items)
   const { setItemQuantity, deleteItem, clearItems } = useLocalStorage()
 
+  const queryClient = useQueryClient()
+
   const mutation = useMutation({
     mutationFn: CreateOrder,
     mutationKey: ["new-order"],
@@ -30,6 +32,7 @@ export function CartModal() {
     },
     onSuccess: () => {
       toast.success("Su pedido ha sido creado correctamente")
+      queryClient.invalidateQueries({ queryKey: ["orders"] })
       setIsOpen(false)
       clearItems()
     }
@@ -96,7 +99,7 @@ export function CartModal() {
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="font-semibold text-sm">${item.unit_price * item.quantity}</span>
+                      <span className="font-semibold text-sm">${(item.unit_price * item.quantity).toLocaleString("de-DE")}</span>
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
@@ -139,7 +142,7 @@ export function CartModal() {
             <div className="space-y-4">
               <div className="flex justify-between items-center font-semibold">
                 <span>Total:</span>
-                <span className="text-lg">${cartItems.reduce((acc, item) => acc + (item.unit_price * item.quantity), 0)}</span>
+                <span className="text-lg">${cartItems.reduce((acc, item) => acc + (item.unit_price * item.quantity), 0).toLocaleString("de-DE")}</span>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1 bg-transparent">

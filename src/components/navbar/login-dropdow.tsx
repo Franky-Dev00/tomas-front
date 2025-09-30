@@ -34,7 +34,7 @@ export default function() {
         <div className="hidden md:flex items-center gap-2">
           <Button variant="ghost" size="sm">
             <UserIcon className="h-4 w-4 mr-2" />
-            {user.name}
+            {user.name} {user.lastname}
           </Button>
         </div>
       </DropdownMenuTrigger>

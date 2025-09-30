@@ -56,6 +56,12 @@ type OrderItem = {
     name: string
     images: string[]
   }
+  variant: {
+    size: string
+    garment: {
+      name: string
+    }
+  }
 }
 
 export type OrderStatus = "pending" | "sent" | "approved" | "rejected";
