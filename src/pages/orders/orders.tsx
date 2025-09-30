@@ -20,7 +20,6 @@ export default function OrdersPage() {
     queryFn: async () => getOrders(debouncedSearchQuery),
     queryKey: ["orders", debouncedSearchQuery],
     enabled: user !== null
-
   })
 
   if (!user) {
@@ -55,14 +54,21 @@ export default function OrdersPage() {
             : (data?.orders.map((order) => (
               <OrderCard key={order.id} role={user?.role} order={order} />
             )))
-
         }
       </div>
       {data?.orders.length === 0 && (
         <div className="text-center py-12">
           <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No tienes órdenes aún</h3>
-          <p className="text-muted-foreground mb-4">Cuando realices tu primera compra, aparecerá aquí</p>
+          <h3 className="text-lg font-semibold mb-2">{
+            user.role === "admin"
+              ? "No se han registrado pedidos aún"
+              : "No tienes órdenes aún"
+          }</h3>
+          <p className="text-muted-foreground mb-4">{
+            user.role === "admin"
+              ? "Cuando hayan pedidos disponibles se aparecerán aquí"
+              : "Cuando realices tu primera compra, aparecerá aquí"
+          }</p>
           <Link to="/"><Button>Explorar Diseños</Button></Link>
         </div>
       )}

@@ -100,7 +100,7 @@ export default function OrderCard({ order, role }: { order: Order; role?: string
           ))}
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex items-center justify-center">
         {role === "admin" &&
           (
             <Select value={status} onValueChange={(value) => handleStatusChange(value as OrderStatus, order.id)} defaultValue={order.status}>
@@ -112,7 +112,7 @@ export default function OrderCard({ order, role }: { order: Order; role?: string
                   <SelectLabel>Estados</SelectLabel>
                   {
                     Object.entries(ORDER_STATUS).map(([key, value]) => (
-                      <SelectItem className={getStatusColor(key)} key={key} value={key}> {value} </SelectItem>
+                      <SelectItem key={key} value={key}> {value} </SelectItem>
                     ))
                   }
                 </SelectGroup>

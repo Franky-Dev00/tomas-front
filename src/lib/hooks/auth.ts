@@ -3,6 +3,7 @@ import { useAuthStore } from "@/store/auth-store"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
+import { toast } from "sonner"
 
 export function useAuth() {
   const user = useAuthStore((state) => state.user)
@@ -11,7 +12,12 @@ export function useAuth() {
 
   const mutation = useMutation({
     mutationKey: ["auth-mutation"],
-    mutationFn: logOut
+    mutationFn: logOut,
+    onSuccess: () => {
+      toast.success("Sesión finalizada")
+      setAuthUser(null)
+      navigate("/")
+    }
   })
 
   const { data, isSuccess } = useQuery({
@@ -30,8 +36,6 @@ export function useAuth() {
 
   function logOutHelper() {
     mutation.mutate()
-    setAuthUser(null)
-    navigate("/")
   }
 
   return {
