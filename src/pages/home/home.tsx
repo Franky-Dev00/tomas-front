@@ -5,6 +5,7 @@ import SearchBar from "./search-bar"
 import DesignCard from "./design-card"
 import Pagination from "./pagination"
 import { Link } from "react-router"
+import DesignListSkeleton from "./skeleton"
 
 export default function Home() {
 
@@ -12,7 +13,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
   const [debouncedQuery, setDebouncedQuery] = useState("")
 
-  const { error, data } = useQuery({
+  const { error, data, isLoading } = useQuery({
     queryKey: ["designs", debouncedQuery],
     queryFn: async () => getDesigns(debouncedQuery)
   })
@@ -49,11 +50,13 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-        {data?.designs.map((design) => (
-          <Link to={`/diseño/${design.id}`} key={design.id}>
-            <DesignCard design={design} />
-          </Link>
-        ))}
+        {isLoading
+          ? <DesignListSkeleton />
+          : (data?.designs.map((design) => (
+            <Link to={`/diseño/${design.id}`} key={design.id}>
+              <DesignCard design={design} />
+            </Link>
+          )))}
       </div>
       <Pagination
         currentPage={currentPage}

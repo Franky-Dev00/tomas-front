@@ -10,6 +10,7 @@ import Cart from "./cart"
 import type { Garment, GarmentVariant } from "@/lib/types"
 import { useLocalStorage, type LocalStorageItem } from "@/lib/hooks/localStorage"
 import { toast } from "sonner"
+import DetailSkeleton from "./detail-skeleton"
 
 type Params = {
   id: string
@@ -26,7 +27,7 @@ export default function Detail() {
 
   const navigate = useNavigate()
 
-  const { data } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["detail"],
     queryFn: async () => getDetailData(params.id)
   })
@@ -80,6 +81,10 @@ export default function Detail() {
       newPrice += selectedGarment.price
     }
     setCurrentPrice(newPrice)
+  }
+
+  if (isLoading || isFetching) {
+    return <DetailSkeleton />
   }
 
   return (
